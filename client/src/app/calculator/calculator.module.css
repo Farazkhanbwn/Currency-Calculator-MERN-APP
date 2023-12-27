@@ -1,0 +1,22 @@
+.calculator-main {
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator {
+    max-width: 40rem;
+    display: flex;
+    gap: 2rem;
+    background-color: rgb(214, 214, 214);
+    padding: 2rem;
+}
+
+.calculator-input-form {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+}
