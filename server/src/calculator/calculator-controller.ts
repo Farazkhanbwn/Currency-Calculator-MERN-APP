@@ -1,50 +1,41 @@
 import { Request, Response } from "express";
-import {
-  addTwoNumbers,
-  divideTwoNumber,
-  multipleTwoNumbers,
-  subtractTwoNumbers,
-} from "../utils";
+import User from "./calculator-model";
 
-export const add = async (req: Request, res: Response) => {
+export const addHistory = async (req: Request, res: Response) => {
   try {
-    const { number1, number2 } = req.body;
+    const { history, uid } = req.body;
+    const userHistory = new User({ history, uid: uid });
 
-    const result = addTwoNumbers(number1, number2);
-    return res.status(200).json({ error: null, data: result });
+    await userHistory.save();
+    return res.status(200).json({ error: null, data: userHistory });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ data: null, error: "External Server Error" });
+  }
+};
+
+export const getAllHistory = async (req: Request, res: Response) => {
+  try {
+    const { uid } = req.body;
+    console.log("uid", uid);
+
+    const user = await User.find({ uid }).lean();
+    console.log(user);
+
+    return res.status(200).json({ error: null, data: user });
   } catch (error) {
     res.status(500).json({ data: null, error: "External Server Error" });
   }
 };
 
-export const subtract = async (req: Request, res: Response) => {
+export const deleteHistoryItem = async (req: Request, res: Response) => {
   try {
-    const { number1, number2 } = req.body;
+    const { id } = req.params;
 
-    const result = subtractTwoNumbers(number1, number2);
-    return res.status(200).json({ error: null, data: result });
-  } catch (error) {
-    res.status(500).json({ data: null, error: "External Server Error" });
-  }
-};
+    const user = await User.findOneAndDelete({ id });
+    console.log(user);
 
-export const multiply = async (req: Request, res: Response) => {
-  try {
-    const { number1, number2 } = req.body;
-
-    const result = multipleTwoNumbers(number1, number2);
-    return res.status(200).json({ error: null, data: result });
-  } catch (error) {
-    res.status(500).json({ data: null, error: "External Server Error" });
-  }
-};
-
-export const divide = async (req: Request, res: Response) => {
-  try {
-    const { number1, number2 } = req.body;
-
-    const result = divideTwoNumber(number1, number2);
-    return res.status(200).json({ error: null, data: result });
+    return res.status(200).json({ error: null, data: user });
   } catch (error) {
     res.status(500).json({ data: null, error: "External Server Error" });
   }
