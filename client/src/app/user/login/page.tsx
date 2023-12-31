@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useLayoutEffect, useState } from "react";
 import style from "../user.module.css";
 import CustomInput from "@/shared/components/custom-input/custom-input";
 import CustomButton from "@/shared/components/custom-button/custom-button";
@@ -16,6 +16,21 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const checkIsUserLogin = () => {
+    const a = firebaseAuth.onAuthStateChanged(function (user) {
+      if (user) {
+        console.log("user ", user);
+      } else {
+        console.log("not login");
+      }
+    });
+    a()
+  };
+
+  useLayoutEffect(() => {
+    checkIsUserLogin();
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
