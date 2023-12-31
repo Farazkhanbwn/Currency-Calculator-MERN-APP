@@ -6,7 +6,7 @@ import HeadingPrimary from "@/shared/components/heading-primary/heading-primary"
 import styles from "../calculator.module.css";
 import { CustomButtonTypes } from "@/shared/components/custom-button/custom-button.types";
 import CustomButton from "@/shared/components/custom-button/custom-button";
-import { useCalculation } from "@/shared/hooks/useCalculation";
+import { useCalculation } from "@/shared/hooks/use-calculation";
 
 const CalculatorForm = () => {
   const { result, error, performOperation } = useCalculation();
@@ -27,7 +27,9 @@ const CalculatorForm = () => {
     }));
   };
 
-  const handleOperationClick = (operation: "+" | "-" | "*" | "/") => {
+  const handleOperationClick = async (operation: "+" | "-" | "*" | "/") => {
+    const token = localStorage.getItem("token");
+    console.log("token is ", token);
     const { number1, number2 } = numbers;
     performOperation(number1, number2, operation);
   };
