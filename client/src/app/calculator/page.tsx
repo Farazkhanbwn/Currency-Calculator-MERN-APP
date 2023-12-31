@@ -4,6 +4,7 @@ import styles from "./calculator.module.css";
 import History from "./history/page";
 import CalculatorForm from "./calculator-form/page";
 import { useRouter } from "next/navigation";
+import { firebaseAuth } from "@/firebase";
 
 const Calculator = () => {
   const router = useRouter();
@@ -19,8 +20,13 @@ const Calculator = () => {
     }
   };
 
+  const userLogout = () => {
+    firebaseAuth.signOut();
+  };
+
   return (
     <div className={styles["calculator-main"]}>
+      <button onClick={userLogout}>Logout</button>
       <div className={styles["calculator"]}>
         <CalculatorForm />
         <History />
